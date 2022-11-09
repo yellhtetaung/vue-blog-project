@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.fa-bars {
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+textarea {
+  max-height: 300px;
+  resize: none !important;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.card {
+  box-shadow: 0 .6rem 1.4rem rgba(0, 0, 0, 0.2);
+}
+
+.active {
+  color: #fff !important;
+}
+
+.nav-item a.nav-link {
+  color: #fff;
+}
