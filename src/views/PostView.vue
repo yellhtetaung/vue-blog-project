@@ -98,7 +98,12 @@ export default {
     user.map((user) => (this.userId = user.id));
     await axios
       .get(`http://localhost:3000/users/${this.userId}`)
-      .then((res) => (this.$store.state.blogs = res.data.blogs));
+      .then((res) => {
+        this.$store.state.blogs = res.data.blogs;
+      });
+    await axios
+      .get(`http://localhost:3000/users`)
+      .then((res) => (this.$store.state.users = res.data));
   },
 };
 </script>

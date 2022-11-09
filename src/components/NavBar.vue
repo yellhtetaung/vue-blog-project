@@ -98,12 +98,11 @@ export default {
     loadData() {
       let user = localStorage.getItem("user-info");
       let usernames = JSON.parse(user);
+
       if (Array.isArray(usernames)) {
         usernames.forEach((username) => {
           this.name = username.name;
         });
-      } else {
-        this.name = usernames.name;
       }
     },
     signOut() {
@@ -114,7 +113,7 @@ export default {
   mounted() {
     const user = localStorage.getItem("user-info");
     if (!user) {
-      this.$router.push({ name: "signin" });
+      this.$router.push({ name: "signup" });
     }
     this.loadData();
   },

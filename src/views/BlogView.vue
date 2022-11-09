@@ -100,10 +100,12 @@ export default {
       const idx = getStoreUsersIdx.length - 1;
       const userId = getStoreUsersIdx[idx].id;
 
+      console.log(this.name, getStoreUsersIdx, idx, userId);
+
       if (this.$store.state.blogs[i].like) {
         this.$store.commit("unlikeBlog", i);
-        this.$store.state.users[idx].blogs[i].like = false;
-        this.$store.state.users[idx].blogs[i].likeCount -= 1;
+        this.$store.state.users[userId - 1].blogs[i].like = false;
+        this.$store.state.users[userId - 1].blogs[i].likeCount -= 1;
 
         await axios.put(
           `http://localhost:3000/users/${userId}`,
@@ -111,12 +113,12 @@ export default {
         );
       } else if (!this.$store.state.blogs[i].like) {
         this.$store.commit("likeBlog", i);
-        this.$store.state.users[idx].blogs[i].like = true;
-        this.$store.state.users[idx].blogs[i].likeCount += 1;
+        this.$store.state.users[userId - 1].blogs[i].like = true;
+        this.$store.state.users[userId - 1].blogs[i].likeCount += 1;
 
         await axios.put(
           `http://localhost:3000/users/${userId}`,
-          this.$store.state.users[idx]
+          this.$store.state.users[userId - 1]
         );
       }
     },
@@ -124,19 +126,19 @@ export default {
 
   async mounted() {
     const user = localStorage.getItem("user-info");
-    const username = JSON.parse(user).name;
+    const username = JSON.parse(user)[0].name;
     if (!user) {
       this.$router.push({ name: "signup" });
     }
+
     await axios.get(`http://localhost:3000/users/`).then((res) => {
       this.$store.state.users = res.data;
-      // const result = res.data.map((i) => i.blogs);
-      // result.map((i) =>
-      //   i.map((x) => {
-      //     this.blogs.push({ ...x });
-      //   })
-      // );
-      console.log(res.data.map((i) => i.blogs));
+      const result = res.data.map((i) => i.blogs);
+      result.map((i) =>
+        i.map((x) => {
+          this.blogs.push({ ...x });
+        })
+      );
       this.$store.state.blogs = this.blogs;
       this.name = username;
     });

@@ -63,8 +63,13 @@ export default {
       ) {
         return alert("Already has email");
       } else if (
-        this.$store.state.users.filter((i) => i.email === this.email).length ===
-        0
+        this.$store.state.users.filter((i) => i.name === this.name).length > 0
+      ) {
+        return alert("Already has name");
+      } else if (
+        this.$store.state.users.filter(
+          (i) => i.email === this.email || i.name === this.name
+        ).length === 0
       ) {
         let result = await axios.post("http://localhost:3000/users", {
           name: this.name,
@@ -74,11 +79,17 @@ export default {
         });
 
         if (result.status === 201) {
-          localStorage.setItem("user-info", JSON.stringify(result.data));
+          localStorage.setItem("user-info", JSON.stringify([result.data]));
           this.$router.push({ name: "blog" });
         }
       }
     },
+  },
+
+  async mounted() {
+    await axios
+      .get("http://localhost:3000/users")
+      .then((res) => (this.$store.state.users = res.data));
   },
 };
 </script>
